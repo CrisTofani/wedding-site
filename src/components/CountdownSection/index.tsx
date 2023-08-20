@@ -18,6 +18,7 @@ export default function CountdownSection() {
   return (
     <section
       style={{ padding: "50px 0", backgroundColor: "rgba(89, 109, 78, 0.3)" }}
+      id="#section-3"
     >
       <Container>
         <Grid

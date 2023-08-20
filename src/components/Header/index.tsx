@@ -13,9 +13,16 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useScrollTrigger } from "@mui/material";
+import { Link } from "react-scroll";
 
 const drawerWidth = 240;
-const navItems = ["Home", "Location", "Libro degli Ospiti"];
+
+const navItems = [
+  { title: "Home", to: "#section-1" },
+  { title: "Location", to: "#section-2" },
+  { title: "Aggiungi al calendario", to: "#section-3" },
+];
+
 const title = "Cristiano & Marta";
 
 export default function Header() {
@@ -41,9 +48,16 @@ export default function Header() {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+          <ListItem key={item.title} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+              <Link
+                to={item.to}
+                smooth={true}
+                duration={500}
+                onClick={handleDrawerToggle}
+              >
+                <ListItemText primary={item.title} />
+              </Link>
             </ListItemButton>
           </ListItem>
         ))}
@@ -87,8 +101,18 @@ export default function Header() {
             }}
           >
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "white", fontWeight: "600" }}>
-                {item}
+              <Button
+                key={item.title}
+                sx={{ color: "white", fontWeight: "600" }}
+              >
+                <Link
+                  key={item.title}
+                  to={item.to}
+                  smooth={true}
+                  duration={500}
+                >
+                  {item.title}
+                </Link>
               </Button>
             ))}
           </Box>

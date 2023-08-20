@@ -3,7 +3,7 @@ import * as React from "react";
 import "./index.css";
 export default function Hero() {
   return (
-    <section className="hero-section">
+    <section className="hero-section" id="#section-1">
       <Grid
         height={"100%"}
         container

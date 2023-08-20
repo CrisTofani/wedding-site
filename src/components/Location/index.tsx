@@ -7,6 +7,7 @@ export default function Location() {
   return (
     <section
       style={{ paddingTop: "50px", backgroundColor: "rgb(241,243,244)" }}
+      id="#section-2"
     >
       <Grid container justifyContent={"space-around"}>
         <Grid item sm={4}>
