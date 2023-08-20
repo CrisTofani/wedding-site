@@ -1,0 +1,9 @@
+.hero-section {
+  height: 55vh;
+  background-image: linear-gradient(rgba(89, 109, 78, 0.3), rgba(89, 109, 78, 1)), url("../../../public/assets/img/wedding-hero-unsplash_2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: "100%";
+  padding: 100px 0;
+}
