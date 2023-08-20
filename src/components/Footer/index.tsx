@@ -25,9 +25,10 @@ export default function Footer() {
             <Grid
               item
               container
+              sx={{ mt: 1 }}
               direction="row"
               alignItems="flex-start"
-              spacing={3}
+              columnSpacing={3}
             >
               <Grid item>
                 <Typography variant="h6">Cristiano</Typography>
@@ -42,7 +43,7 @@ export default function Footer() {
               container
               direction="row"
               alignItems="flex-start"
-              spacing={6}
+              columnSpacing={6}
             >
               <Grid item>
                 <Typography variant="h6">Marta</Typography>

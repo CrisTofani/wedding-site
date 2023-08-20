@@ -27,7 +27,7 @@ export default function Header() {
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: window.screen.height * 0.4,
+    threshold: window.screen.height * 0.38,
   });
 
   const drawer = (

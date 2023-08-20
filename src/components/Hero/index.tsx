@@ -13,12 +13,19 @@ export default function Hero() {
       >
         <Grid item>
           <Typography
-            variant={"h3"}
+            variant={"h2"}
             sx={{ color: "#fff", textAlign: "center" }}
           >
             Cristiano & Marta
           </Typography>
-          <Typography variant="h6" sx={{ color: "#fff", textAlign: "center" }}>
+          <Typography variant="h5" sx={{ color: "#fff", textAlign: "center" }}>
+            Ci sposeremo il
+          </Typography>
+          <Typography
+            variant="h6"
+            fontWeight={600}
+            sx={{ color: "#fff", textAlign: "center" }}
+          >
             7 Settembre 2024
           </Typography>
         </Grid>
