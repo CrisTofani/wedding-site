@@ -23,9 +23,13 @@ const navItems = [
   { title: "Aggiungi al calendario", to: "#section-3" },
 ];
 
+type Props = {
+  hideMenu?: boolean;
+};
+
 const title = "Cristiano & Marta";
 
-export default function Header() {
+export default function Header({ hideMenu = false }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -45,23 +49,27 @@ export default function Header() {
       <Typography variant="h6" sx={{ my: 2 }} color={"#596D4E"}>
         {title}
       </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.title} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <Link
-                to={item.to}
-                smooth={true}
-                duration={500}
-                onClick={handleDrawerToggle}
-              >
-                <ListItemText primary={item.title} />
-              </Link>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {!hideMenu && (
+        <>
+          <Divider />
+          <List>
+            {navItems.map((item) => (
+              <ListItem key={item.title} disablePadding>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <Link
+                    to={item.to}
+                    smooth={true}
+                    duration={500}
+                    onClick={handleDrawerToggle}
+                  >
+                    <ListItemText primary={item.title} />
+                  </Link>
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )}
     </Box>
   );
 
@@ -74,48 +82,55 @@ export default function Header() {
         component={"nav"}
         elevation={trigger ? 4 : 0}
         sx={{
-          backgroundColor: trigger ? "#596D4E" : "transparent",
+          backgroundColor: hideMenu || trigger ? "#596D4E" : "transparent",
         }}
       >
         <Toolbar sx={{ justifyContent: { sm: "center" } }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
+          {!hideMenu && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: !hideMenu ? "none" : "block", sm: "block" },
+            }}
             color={"white"}
           >
             {title}
           </Typography>
-          <Box
-            sx={{
-              display: { xs: "none", sm: "block" },
-            }}
-          >
-            {navItems.map((item) => (
-              <Button
-                key={item.title}
-                sx={{ color: "white", fontWeight: "600" }}
-              >
-                <Link
+          {!hideMenu && (
+            <Box
+              sx={{
+                display: { xs: "none", sm: "block" },
+              }}
+            >
+              {navItems.map((item) => (
+                <Button
                   key={item.title}
-                  to={item.to}
-                  smooth={true}
-                  duration={500}
+                  sx={{ color: "white", fontWeight: "600" }}
                 >
-                  {item.title}
-                </Link>
-              </Button>
-            ))}
-          </Box>
+                  <Link
+                    key={item.title}
+                    to={item.to}
+                    smooth={true}
+                    duration={500}
+                  >
+                    {item.title}
+                  </Link>
+                </Button>
+              ))}
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
       <Box component="nav">

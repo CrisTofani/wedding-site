@@ -2,14 +2,11 @@ import * as React from "react";
 import "./App.css";
 import "./firebase";
 import CssBaseline from "@mui/material/CssBaseline";
-import Header from "./components/Header";
-import Location from "./components/Location";
 import { createTheme, responsiveFontSizes } from "@mui/material";
-// import { animated, useInView, useSpring } from "@react-spring/web";
 import { ThemeProvider } from "@emotion/react";
-import Hero from "./components/Hero";
-import Footer from "./components/Footer";
-import CountdownSection from "./components/CountdownSection";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { InvitationForm } from "./pages/InvitationForm";
 
 const theme = responsiveFontSizes(
   createTheme({
@@ -24,38 +21,26 @@ const theme = responsiveFontSizes(
   })
 );
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/invitation/:id",
+    element: <InvitationForm />,
+  },
+  {
+    path: "*",
+    element: <div>404</div>, // <-- Add a 404 Obi page
+  },
+]);
+
 function App() {
-  // const [ref, isInView] = useInView({
-  //   amount: buildInteractionObserverThreshold(),
-  // });
-
-  // const styles = useSpring({
-  //   scale: isInView ? 1.5 : 0,
-  //   config: {
-  //     tension: 300,
-  //   },
-  // });
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header />
-      <Hero />
-      <Location />
-      <CountdownSection />
-      <Footer />
-      {/* <animated.img
-        src={require("./img/Obi.png")}
-        ref={ref}
-        style={{
-          ...styles,
-          position: "absolute",
-          bottom: -595,
-          right: window.screen.width * 0.5,
-        }}
-        width={90}
-        alt={"obi"}
-      /> */}
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
