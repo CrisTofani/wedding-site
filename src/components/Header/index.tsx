@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link as NavLink } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -38,7 +39,9 @@ export default function Header({ hideMenu = false }: Props) {
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: window.screen.height * 0.38,
+    threshold: hideMenu
+      ? window.screen.height * 0.1
+      : window.screen.height * 0.38,
   });
 
   const drawer = (
@@ -82,7 +85,7 @@ export default function Header({ hideMenu = false }: Props) {
         component={"nav"}
         elevation={trigger ? 4 : 0}
         sx={{
-          backgroundColor: hideMenu || trigger ? "#596D4E" : "transparent",
+          backgroundColor: trigger ? "#596D4E" : "transparent",
         }}
       >
         <Toolbar sx={{ justifyContent: { sm: "center" } }}>
@@ -106,7 +109,12 @@ export default function Header({ hideMenu = false }: Props) {
             }}
             color={"white"}
           >
-            {title}
+            <NavLink
+              to={"/"}
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              {title}
+            </NavLink>
           </Typography>
           {!hideMenu && (
             <Box

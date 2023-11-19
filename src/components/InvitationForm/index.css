@@ -1,0 +1,10 @@
+.invitation-form {
+  width: 100%;
+  padding: 100px 150px;
+}
+
+@media screen and (max-width: 768px) {
+  .invitation-form {
+    padding: 100px 50px;
+  }
+}
