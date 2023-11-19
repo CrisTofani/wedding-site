@@ -70,13 +70,17 @@ const InvitationForm = () => {
                           <FormControlLabel
                             value={"Y"}
                             control={<Radio />}
-                            label="Ci sarò/saremo! ❤️"
+                            label={`Ci ${
+                              values.partecipants.length > 1 ? "saremo" : "sarò"
+                            }! ❤️`}
                             sx={{ marginRight: "32px" }}
                           />
                           <FormControlLabel
                             value="N"
                             control={<Radio />}
-                            label="Non ci sarò/saremo 💔"
+                            label={`Non ci ${
+                              values.partecipants.length > 1 ? "saremo" : "sarò"
+                            } 💔`}
                           />
                         </RadioGroup>
                       </Grid>
@@ -210,25 +214,38 @@ const InvitationForm = () => {
                         </Paper>
                       </Grid>
                     ))}
+                  {values.partecipation === "Y" &&
+                    values.partecipants.length < 3 && (
+                      <Grid
+                        item
+                        xs={1}
+                        sm={1}
+                        display={"flex"}
+                        justifyContent={"flex-start"}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => push(emptyPartecipant)}
+                        >
+                          <Person />
+                        </Button>
+                      </Grid>
+                    )}
                   <Grid
                     item
-                    xs={1}
-                    sm={1}
-                    display={"flex"}
-                    justifyContent={"flex-start"}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => push(emptyPartecipant)}
-                    >
-                      <Person />
-                    </Button>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    sm={2}
+                    xs={
+                      values.partecipation !== "Y" ||
+                      values.partecipants.length > 2
+                        ? 3
+                        : 2
+                    }
+                    sm={
+                      values.partecipation !== "Y" ||
+                      values.partecipants.length > 2
+                        ? 3
+                        : 2
+                    }
                     display={"flex"}
                     justifyContent={"flex-end"}
                   >
