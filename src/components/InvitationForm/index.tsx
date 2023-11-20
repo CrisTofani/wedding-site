@@ -19,17 +19,30 @@ import Person from "@mui/icons-material/PersonAddRounded";
 import { Form } from "react-router-dom";
 import "./index.css";
 import { FieldArray, Formik } from "formik";
+import { GuestMenu, Invitation } from "../../utils/types/guest";
 
 const emptyPartecipant = {
   name: "Dario Patti",
-  menu: "standard",
+  menu: "standard" as GuestMenu,
   notes: "",
 };
 
-const labelColor = { color: "rgba(89, 109, 78)" };
-const InvitationForm = () => {
-  const theme = useTheme();
+type Props = {
+  invitation?: Invitation;
+};
 
+type FormValues = Omit<Invitation, "id" | "can_add">;
+const labelColor = { color: "rgba(89, 109, 78)" };
+const InvitationForm = ({
+  invitation = {
+    id: "",
+    can_add: "N",
+    partecipation: "Y",
+    contact: "",
+    partecipants: [emptyPartecipant, emptyPartecipant],
+  },
+}: Props) => {
+  const theme = useTheme();
   return (
     <Form
       className="invitation-form"
@@ -37,11 +50,13 @@ const InvitationForm = () => {
     >
       <Container disableGutters={useMediaQuery(theme.breakpoints.only("xs"))}>
         <Formik
-          initialValues={{
-            partecipation: "",
-            contact: "",
-            partecipants: [emptyPartecipant],
-          }}
+          initialValues={
+            {
+              partecipation: invitation.partecipation,
+              contact: invitation.contact,
+              partecipants: [...invitation.partecipants],
+            } as FormValues
+          }
           onSubmit={(values) => {
             alert(JSON.stringify(values));
           }}
@@ -223,124 +238,149 @@ const InvitationForm = () => {
                         </Grid>
                       </Paper>
                     </Grid>
+
+                    {(values.partecipants.length > 1 ||
+                      invitation.can_add === "Y") && (
+                      <Grid item xs={12} sm={12}>
+                        <Typography variant={"body1"} sx={{ ...labelColor }}>
+                          Usa il form seguente per aggiungere i dettagli delle
+                          persone che verranno con te. <br />
+                          Se non ci saranno altre persone oltre a te, usa il
+                          pulsante con la X in alto a destra per rimuoverle
+                          dall'invito.
+                        </Typography>
+                        {invitation.can_add === "Y" && (
+                          <Typography variant={"body1"} sx={{ ...labelColor }}>
+                            Puoi aggiungere un nuovo partecipante cliccando sul
+                            pulsante con l'icona della persona in basso a
+                            sinistra.
+                          </Typography>
+                        )}
+                      </Grid>
+                    )}
                     {values.partecipants.length > 0 &&
                       values.partecipants.map(
                         (p, index) =>
                           index !== 0 && (
-                            <Grid item xs={12} sm={12}>
-                              <Paper elevation={2} sx={{ padding: "24px" }}>
-                                {index > 0 && (
+                            <>
+                              <Grid item xs={12} sm={12}>
+                                <Paper elevation={2} sx={{ padding: "24px" }}>
+                                  {index > 0 && (
+                                    <Grid
+                                      item
+                                      xs={12}
+                                      sm={12}
+                                      display={"flex"}
+                                      justifyContent={"flex-end"}
+                                    >
+                                      <Button
+                                        variant="text"
+                                        color="primary"
+                                        onClick={() => remove(index)}
+                                      >
+                                        <DeleteIcon />
+                                      </Button>
+                                    </Grid>
+                                  )}
                                   <Grid
                                     item
                                     xs={12}
                                     sm={12}
-                                    display={"flex"}
-                                    justifyContent={"flex-end"}
+                                    sx={{ paddingBottom: "16px" }}
                                   >
-                                    <Button
-                                      variant="text"
-                                      color="primary"
-                                      onClick={() => remove(index)}
+                                    <FormLabel
+                                      sx={labelColor}
+                                      // color="primary"
+                                      id="name"
                                     >
-                                      <DeleteIcon />
-                                    </Button>
+                                      Nome e Cognome *
+                                    </FormLabel>
+                                    <TextField
+                                      id="name"
+                                      variant="outlined"
+                                      sx={labelColor}
+                                      fullWidth
+                                      value={p.name}
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `partecipants[${index}].name`,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
                                   </Grid>
-                                )}
-                                <Grid
-                                  item
-                                  xs={12}
-                                  sm={12}
-                                  sx={{ paddingBottom: "16px" }}
-                                >
-                                  <FormLabel
-                                    sx={labelColor}
-                                    // color="primary"
-                                    id="name"
+                                  <Grid
+                                    item
+                                    xs={12}
+                                    sm={12}
+                                    sx={{ paddingBottom: "16px" }}
                                   >
-                                    Nome e Cognome *
-                                  </FormLabel>
-                                  <TextField
-                                    id="name"
-                                    variant="outlined"
-                                    sx={labelColor}
-                                    fullWidth
-                                    value={p.name}
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `partecipants[${index}].name`,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </Grid>
-                                <Grid
-                                  item
-                                  xs={12}
-                                  sm={12}
-                                  sx={{ paddingBottom: "16px" }}
-                                >
-                                  <FormLabel
-                                    sx={labelColor}
-                                    id="menu-select-label"
-                                  >
-                                    Menù *
-                                  </FormLabel>
-                                  <Select
-                                    labelId="menu-select-label"
-                                    id="menu-select"
-                                    value={p.menu}
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `partecipants[${index}].menu`,
-                                        e.target.value
-                                      )
-                                    }
-                                    fullWidth
-                                    disabled={values.partecipation !== "Y"}
-                                  >
-                                    <MenuItem value={"standard"}>
-                                      Mangio tutto
-                                    </MenuItem>
-                                    <MenuItem value={"child"}>Bambino</MenuItem>
-                                    <MenuItem value={"vegetarian"}>
-                                      Vegetariano
-                                    </MenuItem>
-                                    <MenuItem value={"celiac"}>
-                                      Celiaco
-                                    </MenuItem>
-                                  </Select>
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                  <FormLabel
-                                    sx={labelColor}
-                                    // color="primary"
-                                    id="notes-label"
-                                  >
-                                    Note (Intolleranze/Allergie etc.)
-                                  </FormLabel>
-                                  <TextField
-                                    id="notes"
-                                    value={p.notes}
-                                    disabled={values.partecipation !== "Y"}
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `partecipants[${index}].notes`,
-                                        e.target.value
-                                      )
-                                    }
-                                    aria-labelledby="notes-label"
-                                    variant="outlined"
-                                    sx={labelColor}
-                                    fullWidth
-                                    rows={4}
-                                    multiline
-                                  />
-                                </Grid>
-                              </Paper>
-                            </Grid>
+                                    <FormLabel
+                                      sx={labelColor}
+                                      id="menu-select-label"
+                                    >
+                                      Menù *
+                                    </FormLabel>
+                                    <Select
+                                      labelId="menu-select-label"
+                                      id="menu-select"
+                                      value={p.menu}
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `partecipants[${index}].menu`,
+                                          e.target.value
+                                        )
+                                      }
+                                      fullWidth
+                                      disabled={values.partecipation !== "Y"}
+                                    >
+                                      <MenuItem value={"standard"}>
+                                        Mangio tutto
+                                      </MenuItem>
+                                      <MenuItem value={"child"}>
+                                        Bambino
+                                      </MenuItem>
+                                      <MenuItem value={"vegetarian"}>
+                                        Vegetariano
+                                      </MenuItem>
+                                      <MenuItem value={"celiac"}>
+                                        Celiaco
+                                      </MenuItem>
+                                    </Select>
+                                  </Grid>
+                                  <Grid item xs={12} sm={12}>
+                                    <FormLabel
+                                      sx={labelColor}
+                                      // color="primary"
+                                      id="notes-label"
+                                    >
+                                      Note (Intolleranze/Allergie etc.)
+                                    </FormLabel>
+                                    <TextField
+                                      id="notes"
+                                      value={p.notes}
+                                      disabled={values.partecipation !== "Y"}
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `partecipants[${index}].notes`,
+                                          e.target.value
+                                        )
+                                      }
+                                      aria-labelledby="notes-label"
+                                      variant="outlined"
+                                      sx={labelColor}
+                                      fullWidth
+                                      rows={4}
+                                      multiline
+                                    />
+                                  </Grid>
+                                </Paper>
+                              </Grid>
+                            </>
                           )
                       )}
                     {values.partecipation === "Y" &&
+                      invitation.can_add === "Y" &&
                       values.partecipants.length < 3 && (
                         <Grid
                           item
@@ -353,6 +393,7 @@ const InvitationForm = () => {
                             variant="contained"
                             color="primary"
                             onClick={() => push(emptyPartecipant)}
+                            title="Aggiungi partecipante"
                           >
                             <Person />
                           </Button>
@@ -362,13 +403,15 @@ const InvitationForm = () => {
                       item
                       xs={
                         values.partecipation !== "Y" ||
-                        values.partecipants.length > 2
+                        values.partecipants.length > 2 ||
+                        invitation.can_add === "N"
                           ? 3
                           : 2
                       }
                       sm={
                         values.partecipation !== "Y" ||
-                        values.partecipants.length > 2
+                        values.partecipants.length > 2 ||
+                        invitation.can_add === "N"
                           ? 3
                           : 2
                       }
