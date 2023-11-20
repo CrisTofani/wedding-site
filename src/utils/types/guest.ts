@@ -1,15 +1,16 @@
-export type GuestMenu = "standard" | "child" | "vegetarian";
-export type GuestType = "adult" | "child" | "baby";
-export type InvitationType = "with_companion" | "no_companion";
+export type GuestMenu = "standard" | "child" | "vegetarian" | "celiac";
+export type ConditionBoolean = "Y" | "N";
+
+export interface Invitation {
+  id: string;
+  can_add: ConditionBoolean;
+  contact: string;
+  partecipation: ConditionBoolean;
+  partecipants: Guest[];
+}
 
 export interface Guest {
-  id: string;
-  invitation: InvitationType;
   name: string;
-  surname: string;
-  phone: string;
-  partecipation: boolean;
-  type: GuestType;
   menu: GuestMenu;
-  companions: Guest[];
+  notes: string;
 }

@@ -1,9 +1,17 @@
-import { Container, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import "./index.css";
+
+const openUrl = (url: string) => window.open(url, "_blank");
 
 export default function Footer() {
   return (
@@ -30,35 +38,39 @@ export default function Footer() {
               container
               sx={{ mt: 1 }}
               direction="row"
-              alignItems="flex-start"
+              alignItems="center"
               columnSpacing={3}
             >
               <Grid item>
                 <Typography variant="h6">Cristiano</Typography>
               </Grid>
               <Grid item>
-                <a
-                  href="https://wa.me/393298293022?text=Ciao+Cristiano,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ textDecoration: "none" }}
-                >
-                  <WhatsAppIcon />
-                </a>
-                <a
-                  href="https://wa.me/393292251193?text=Ciao+Marta,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <InstagramIcon />
-                </a>
-                <a
-                  href="https://wa.me/393292251193?text=Ciao+Marta,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FacebookIcon />
-                </a>
+                <ButtonGroup variant="text" size="small">
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      openUrl(
+                        "https://wa.me/393298293022?text=Ciao+Cristiano,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
+                      )
+                    }
+                  >
+                    <WhatsAppIcon />
+                  </Button>
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      openUrl("https://www.instagram.com/cristianotofani_")
+                    }
+                  >
+                    <InstagramIcon />
+                  </Button>
+                  <Button
+                    color="inherit"
+                    onClick={() => openUrl("https://www.facebook.com/BigC921/")}
+                  >
+                    <FacebookIcon />
+                  </Button>
+                </ButtonGroup>
               </Grid>
             </Grid>
 
@@ -66,34 +78,41 @@ export default function Footer() {
               item
               container
               direction="row"
-              alignItems="flex-start"
+              alignItems="center"
               columnSpacing={6}
             >
               <Grid item>
                 <Typography variant="h6">Marta</Typography>
               </Grid>
               <Grid item>
-                <a
-                  href="https://wa.me/393292251193?text=Ciao+Marta,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <WhatsAppIcon />
-                </a>
-                <a
-                  href="https://wa.me/393292251193?text=Ciao+Marta,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <InstagramIcon />
-                </a>
-                <a
-                  href="https://wa.me/393292251193?text=Ciao+Marta,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FacebookIcon />
-                </a>
+                <ButtonGroup variant="text" size="small">
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      openUrl(
+                        "https://wa.me/393292251193?text=Ciao+Marta,+ti+contatto+per+informazioni+sul+tuo+matrimonio."
+                      )
+                    }
+                  >
+                    <WhatsAppIcon />
+                  </Button>
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      openUrl("https://www.instagram.com/martabandinophoto")
+                    }
+                  >
+                    <InstagramIcon />
+                  </Button>
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      openUrl("https://www.facebook.com/marta.bandino")
+                    }
+                  >
+                    <FacebookIcon />
+                  </Button>
+                </ButtonGroup>
               </Grid>
             </Grid>
           </Grid>
