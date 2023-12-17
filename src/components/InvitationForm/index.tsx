@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Container,
@@ -13,6 +14,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/CloseRounded";
 import Person from "@mui/icons-material/PersonAddRounded";
@@ -20,29 +22,37 @@ import { Form } from "react-router-dom";
 import "./index.css";
 import { FieldArray, Formik } from "formik";
 import { GuestMenu, Invitation } from "../../utils/types/guest";
+import { updateInvitation } from "../../services/api";
 
 const emptyPartecipant = {
-  name: "Dario Patti",
+  name: "",
   menu: "standard" as GuestMenu,
   notes: "",
 };
 
 type Props = {
-  invitation?: Invitation;
+  id: string;
+  invitation: Invitation;
 };
 
-type FormValues = Omit<Invitation, "id" | "can_add">;
+type FormValues = Omit<Invitation, "can_add">;
 const labelColor = { color: "rgba(89, 109, 78)" };
-const InvitationForm = ({
-  invitation = {
-    id: "",
-    can_add: "N",
-    partecipation: "Y",
-    contact: "",
-    partecipants: [emptyPartecipant, emptyPartecipant],
-  },
-}: Props) => {
+const InvitationForm = ({ id, invitation }: Props) => {
   const theme = useTheme();
+  const [submitting, setSubmitting] = React.useState(false);
+  const handleSubmit = (values: FormValues) => {
+    console.log("/*** Form Submitted ***/", values);
+    setSubmitting(true);
+    updateInvitation(id, values as Invitation)
+      .then((_) => {
+        setSubmitting(false);
+      })
+      .catch((_) => {
+        setSubmitting(false);
+        alert("Si è verificato un errore, riprova!");
+      });
+  };
+
   return (
     <Form
       className="invitation-form"
@@ -57,9 +67,7 @@ const InvitationForm = ({
               partecipants: [...invitation.partecipants],
             } as FormValues
           }
-          onSubmit={(values) => {
-            alert(JSON.stringify(values));
-          }}
+          onSubmit={handleSubmit}
         >
           {({ values, setFieldValue }) => (
             <>
@@ -421,9 +429,16 @@ const InvitationForm = ({
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => console.log(values)}
+                        onClick={() => {
+                          handleSubmit(values);
+                        }}
+                        disabled={submitting}
                       >
-                        Invia risposta
+                        {submitting ? (
+                          <CircularProgress color="inherit" />
+                        ) : (
+                          "Invia risposta"
+                        )}
                       </Button>
                     </Grid>
                   </Grid>

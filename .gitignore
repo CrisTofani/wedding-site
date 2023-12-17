@@ -25,3 +25,4 @@ yarn-error.log*
 /.firebase
 
 /src/utils/types/invitation.json
+/src/config/firebase.prod.json

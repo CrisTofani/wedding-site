@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./App.css";
-import "./firebase";
+import "./services/firebase";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, responsiveFontSizes } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
