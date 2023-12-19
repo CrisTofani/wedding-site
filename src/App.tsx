@@ -7,6 +7,9 @@ import { ThemeProvider } from "@emotion/react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { InvitationForm } from "./pages/InvitationForm";
+import { ThankYouOk } from "./pages/ThankYouOk";
+import { ThankYouKo } from "./pages/ThankYouKo";
+import { ListaNozze } from "./pages/ListaNozze";
 
 const theme = responsiveFontSizes(
   createTheme({
@@ -29,6 +32,18 @@ const router = createBrowserRouter([
   {
     path: "/invitation/:id",
     element: <InvitationForm />,
+  },
+  {
+    path: "/thank-you",
+    element: <ThankYouOk />,
+  },
+  {
+    path: "/thank-you-ko",
+    element: <ThankYouKo />,
+  },
+  {
+    path: "/lista-di-nozze",
+    element: <ListaNozze />,
   },
   {
     path: "*",

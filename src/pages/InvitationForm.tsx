@@ -9,7 +9,55 @@ import Footer from "../components/Footer";
 import { getInvitation } from "../services/api";
 import { Invitation } from "../utils/types/guest";
 import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
+import { Container, useMediaQuery, useTheme } from "@mui/material";
+import InvitationNotFount from "../img/InvitationNotFound.png";
 
+const InvitationError = () => {
+  const theme = useTheme();
+  return (
+    <div
+      style={{
+        paddingTop: "50px",
+        paddingBottom: "50px",
+        backgroundColor: "rgb(241,243,244)",
+      }}
+    >
+      <Container
+        disableGutters={useMediaQuery(theme.breakpoints.only("xs"))}
+        style={{ height: "100%" }}
+      >
+        <Typography
+          variant="h3"
+          color={theme.palette.primary.main}
+          sx={{ textAlign: "center" }}
+        >
+          Ops, sembra che questo invito non esista!
+        </Typography>
+        <br />
+        <Typography variant="h4" sx={{ textAlign: "center" }}>
+          Se hai ricevuto questo link da parte nostra, contattaci!
+        </Typography>
+        <br />
+        <Typography variant="body2" sx={{ textAlign: "center" }}>
+          Se invece stai provando ad accedere ad un invito senza essere stato
+          invitato, bel tentativo!
+        </Typography>
+        <br />
+        <div
+          style={{ display: "flex", justifyContent: "center", height: "100%" }}
+        >
+          <img
+            src={InvitationNotFount}
+            alt="Invitation not found"
+            height="350px"
+            width="auto"
+            style={{ display: "flex", justifyContent: "center" }}
+          />
+        </div>
+      </Container>
+    </div>
+  );
+};
 export const InvitationForm = () => {
   const [loading, setLoading] = React.useState(true);
   const [invitation, setInvitation] = React.useState<Invitation | undefined>(
@@ -19,10 +67,15 @@ export const InvitationForm = () => {
 
   useEffect(() => {
     if (!id) return;
-    getInvitation(id).then((invitation) => {
-      setLoading(false);
-      setInvitation(invitation as Invitation);
-    });
+    getInvitation(id)
+      .then((invitation) => {
+        setLoading(false);
+        setInvitation(invitation as Invitation);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.error(err);
+      });
   }, [id]);
 
   return (
@@ -61,8 +114,10 @@ export const InvitationForm = () => {
       />
       {loading ? (
         <LoadingPlaceholder />
+      ) : id && invitation ? (
+        <Form id={id} invitation={invitation} />
       ) : (
-        id && invitation && <Form id={id} invitation={invitation} />
+        <InvitationError />
       )}
       <Footer />
     </>

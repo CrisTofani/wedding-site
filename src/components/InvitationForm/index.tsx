@@ -46,6 +46,12 @@ const InvitationForm = ({ id, invitation }: Props) => {
     updateInvitation(id, values as Invitation)
       .then((_) => {
         setSubmitting(false);
+        if (values.partecipation === "N") {
+          window.location.href = "/thank-you-ko";
+          return;
+        }
+        window.location.href = "/thank-you";
+        return;
       })
       .catch((_) => {
         setSubmitting(false);
