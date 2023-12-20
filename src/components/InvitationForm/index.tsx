@@ -253,25 +253,29 @@ const InvitationForm = ({ id, invitation }: Props) => {
                       </Paper>
                     </Grid>
 
-                    {(values.partecipants.length > 1 ||
-                      invitation.can_add === "Y") && (
-                      <Grid item xs={12} sm={12}>
-                        <Typography variant={"body1"} sx={{ ...labelColor }}>
-                          Usa il form seguente per aggiungere i dettagli delle
-                          persone che verranno con te. <br />
-                          Se non ci saranno altre persone oltre a te, usa il
-                          pulsante con la X in alto a destra per rimuoverle
-                          dall'invito.
-                        </Typography>
-                        {invitation.can_add === "Y" && (
+                    {values.partecipation === "Y" &&
+                      (values.partecipants.length > 1 ||
+                        invitation.can_add === "Y") && (
+                        <Grid item xs={12} sm={12}>
                           <Typography variant={"body1"} sx={{ ...labelColor }}>
-                            Puoi aggiungere un nuovo partecipante cliccando sul
-                            pulsante con l'icona della persona in basso a
-                            sinistra.
+                            Usa il form seguente per aggiungere i dettagli delle
+                            persone che verranno con te. <br />
+                            Se non ci saranno altre persone oltre a te, usa il
+                            pulsante con la X in alto a destra per rimuoverle
+                            dall'invito.
                           </Typography>
-                        )}
-                      </Grid>
-                    )}
+                          {invitation.can_add === "Y" && (
+                            <Typography
+                              variant={"body1"}
+                              sx={{ ...labelColor }}
+                            >
+                              Puoi aggiungere un nuovo partecipante cliccando
+                              sul pulsante con l'icona della persona in basso a
+                              sinistra.
+                            </Typography>
+                          )}
+                        </Grid>
+                      )}
                     {values.partecipants.length > 0 &&
                       values.partecipants.map(
                         (p, index) =>

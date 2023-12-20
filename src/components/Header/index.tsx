@@ -70,6 +70,15 @@ export default function Header({ hideMenu = false }: Props) {
                 </ListItemButton>
               </ListItem>
             ))}
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  window.location.href = "/lista-di-nozze";
+                }}
+              >
+                <ListItemText primary={"Lista di nozze"} />
+              </ListItemButton>
+            </ListItem>
           </List>
         </>
       )}
@@ -137,6 +146,14 @@ export default function Header({ hideMenu = false }: Props) {
                   </Link>
                 </Button>
               ))}
+              <Button
+                sx={{ color: "white", fontWeight: "600" }}
+                onClick={() => {
+                  window.location.href = "/lista-di-nozze";
+                }}
+              >
+                Lista di nozze
+              </Button>
             </Box>
           )}
         </Toolbar>
