@@ -20,9 +20,10 @@ import DeleteIcon from "@mui/icons-material/CloseRounded";
 import Person from "@mui/icons-material/PersonAddRounded";
 import { Form } from "react-router-dom";
 import "./index.css";
-import { FieldArray, Formik } from "formik";
-import { GuestMenu, Invitation } from "../../utils/types/guest";
+import { FieldArray, Formik, FormikErrors } from "formik";
+import { Guest, GuestMenu, Invitation } from "../../utils/types/guest";
 import { updateInvitation } from "../../services/api";
+import { InvitationSchema } from "./validation";
 
 const emptyPartecipant = {
   name: "",
@@ -36,14 +37,30 @@ type Props = {
 };
 
 type FormValues = Omit<Invitation, "can_add">;
-const labelColor = { color: "rgba(89, 109, 78)" };
+
+const isNotEmptyString = (value: string) => value.trim() !== "";
+
+const undefinedToEmptyString = (value: string | undefined) =>
+  value ? value : "";
+
 const InvitationForm = ({ id, invitation }: Props) => {
   const theme = useTheme();
+  const labelColor = { color: theme.palette.primary.main };
+  const errorColor = { color: theme.palette.error.main };
+
+  const [showError, setShowError] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
   const handleSubmit = (values: FormValues) => {
     console.log("/*** Form Submitted ***/", values);
+    const convertedValues = {
+      ...values,
+      partecipants: values.partecipants.map((p) => ({
+        ...p,
+        notes: undefinedToEmptyString(p.notes),
+      })),
+    };
     setSubmitting(true);
-    updateInvitation(id, values as Invitation)
+    updateInvitation(id, convertedValues as Invitation)
       .then((_) => {
         setSubmitting(false);
         if (values.partecipation === "N") {
@@ -68,14 +85,26 @@ const InvitationForm = ({ id, invitation }: Props) => {
         <Formik
           initialValues={
             {
-              partecipation: invitation.partecipation,
-              contact: invitation.contact,
-              partecipants: [...invitation.partecipants],
+              partecipation: isNotEmptyString(invitation.partecipation)
+                ? invitation.partecipation
+                : undefined,
+              contact: isNotEmptyString(invitation.contact)
+                ? invitation.contact
+                : undefined,
+              partecipants: invitation.partecipants.map(
+                ({ name, menu, notes }) => ({
+                  name,
+                  menu,
+                  notes: isNotEmptyString(notes) ? notes : undefined,
+                })
+              ),
             } as FormValues
           }
+          validateOnChange
           onSubmit={handleSubmit}
+          validationSchema={InvitationSchema}
         >
-          {({ values, setFieldValue }) => (
+          {({ values, setFieldValue, errors, isValid }) => (
             <>
               <Grid
                 container
@@ -173,6 +202,14 @@ const InvitationForm = ({ id, invitation }: Props) => {
                               } 💔`}
                             />
                           </RadioGroup>
+                          {errors.partecipation && showError && (
+                            <Typography
+                              variant={"body2"}
+                              sx={{ ...errorColor }}
+                            >
+                              {errors.partecipation}
+                            </Typography>
+                          )}
                         </Grid>
                         <Grid item xs={12} sm={12}>
                           <FormLabel
@@ -193,6 +230,14 @@ const InvitationForm = ({ id, invitation }: Props) => {
                               setFieldValue(`contact`, e.target.value)
                             }
                           />
+                          {showError && errors.contact && (
+                            <Typography
+                              variant={"body2"}
+                              sx={{ ...errorColor }}
+                            >
+                              {errors.contact}
+                            </Typography>
+                          )}
                         </Grid>
                         <Grid
                           item
@@ -249,6 +294,17 @@ const InvitationForm = ({ id, invitation }: Props) => {
                             rows={4}
                             multiline
                           />
+                          {showError &&
+                            errors.partecipants &&
+                            errors.partecipants[0] &&
+                            typeof errors.partecipants[0] !== "string" && (
+                              <Typography
+                                variant={"body2"}
+                                sx={{ ...errorColor }}
+                              >
+                                {errors.partecipants[0].notes}
+                              </Typography>
+                            )}
                         </Grid>
                       </Paper>
                     </Grid>
@@ -391,6 +447,24 @@ const InvitationForm = ({ id, invitation }: Props) => {
                                       rows={4}
                                       multiline
                                     />
+                                    {showError &&
+                                      errors.partecipants &&
+                                      errors.partecipants[index] &&
+                                      typeof errors.partecipants[index] !==
+                                        "string" && (
+                                        <Typography
+                                          variant={"body2"}
+                                          sx={{ ...errorColor }}
+                                        >
+                                          {
+                                            (
+                                              errors.partecipants[
+                                                index
+                                              ] as FormikErrors<Guest>
+                                            ).notes
+                                          }
+                                        </Typography>
+                                      )}
                                   </Grid>
                                 </Paper>
                               </Grid>
@@ -440,6 +514,11 @@ const InvitationForm = ({ id, invitation }: Props) => {
                         variant="contained"
                         color="primary"
                         onClick={() => {
+                          if (!isValid) {
+                            setShowError(true);
+                            return;
+                          }
+                          setShowError(false);
                           handleSubmit(values);
                         }}
                         disabled={submitting}
@@ -454,6 +533,12 @@ const InvitationForm = ({ id, invitation }: Props) => {
                   </Grid>
                 )}
               </FieldArray>
+              {/* <Typography
+                variant={"body1"}
+                sx={{ color: theme.palette.error.main }}
+              >
+                {JSON.stringify(errors)}
+              </Typography> */}
             </>
           )}
         </Formik>
