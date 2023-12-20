@@ -31,10 +31,7 @@ export const ListaNozze = () => {
           backgroundColor: "rgb(241,243,244)",
         }}
       >
-        <Container
-          disableGutters={useMediaQuery(theme.breakpoints.only("xs"))}
-          style={{ height: "100%" }}
-        >
+        <Container>
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             Per il nostro viaggio di nozze abbiamo deciso di andare un po'
             lontano, per vedere natura incontaminata e animali che apprezziamo
