@@ -102,7 +102,7 @@ export const Message = ({ messageContent, confirm = false }: MessageProps) => {
           <b>
             {confirm
               ? "Per la lista di nozze è possibile consultare la pagina dedicata"
-              : "Se ti fa piacere esserci, comunque, con il pensiero consulta la pagina dedicata alla nostra lista di nozze"}{" "}
+              : "Se vuoi comunque partecipare con il pensiero, consulta la pagina dedicata alla nostra lista di nozze"}{" "}
             <Link to="/lista-di-nozze">QUI</Link>
           </b>
         </Typography>
