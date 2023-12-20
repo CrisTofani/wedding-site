@@ -28,7 +28,7 @@ type Props = {
   hideMenu?: boolean;
 };
 
-const title = "Cristiano & Marta";
+const title = "C + M";
 
 export default function Header({ hideMenu = false }: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);

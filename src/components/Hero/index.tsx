@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import "./index.css";
 
 type HeroProps = {
@@ -9,8 +9,8 @@ type HeroProps = {
 
 export default function Hero({
   title = "Cristiano & Marta",
-  subtitle = "Ci sposeremo il",
-  note = "7 Settembre 2024",
+  subtitle = "7 Settembre 2024",
+  note = "",
 }: HeroProps) {
   return (
     <section className="hero-section" id="#section-1">
@@ -21,28 +21,33 @@ export default function Hero({
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item>
-          <Typography
-            variant={"h2"}
-            sx={{ color: "#fff", textAlign: "center" }}
-          >
-            {title}
-          </Typography>
-          <Typography variant="h5" sx={{ color: "#fff", textAlign: "center" }}>
-            {subtitle}
-          </Typography>
-          {typeof note === "string" ? (
+        <Container>
+          <Grid item>
             <Typography
-              variant="h6"
-              fontWeight={600}
+              variant={"h2"}
               sx={{ color: "#fff", textAlign: "center" }}
             >
-              {note}
+              {title}
             </Typography>
-          ) : (
-            note
-          )}
-        </Grid>
+            <Typography
+              variant="h5"
+              sx={{ color: "#fff", textAlign: "center" }}
+            >
+              {subtitle}
+            </Typography>
+            {typeof note === "string" ? (
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                sx={{ color: "#fff", textAlign: "center" }}
+              >
+                {note}
+              </Typography>
+            ) : (
+              note
+            )}
+          </Grid>
+        </Container>
       </Grid>
     </section>
   );

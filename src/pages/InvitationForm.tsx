@@ -80,12 +80,29 @@ export const InvitationForm = () => {
 
   return (
     <>
-      <Header hideMenu={true} />
+      <Header hideMenu />
       <Hero
-        subtitle="Siamo felici di invitarti al nostro matrimonio"
-        title="7 Settembre 2024"
+        title="Cristiano & Marta"
+        subtitle=""
         note={
           <>
+            <Typography
+              variant="h3"
+              textAlign={"center"}
+              // fontWeight={600}
+              color={"white"}
+            >
+              7 Settembre 2024
+            </Typography>
+            <br />
+            <Typography
+              variant="h5"
+              textAlign={"center"}
+              // fontWeight={600}
+              color={"white"}
+            >
+              Siamo felici di invitarti al nostro matrimonio
+            </Typography>
             <Divider sx={{ my: "15px" }} light color="white" />
             <Typography
               variant="h6"
