@@ -6,10 +6,7 @@ export const InvitationSchema = Yup.object().shape({
   partecipation: Yup.string<ConditionBoolean>().required(REQUIRED_MESSAGE),
   contact: Yup.string().when("partecipation", {
     is: "Y",
-    then: (schema) =>
-      schema
-        .email("Il contatto deve essere una mail valida")
-        .required(REQUIRED_MESSAGE),
+    then: (schema) => schema.required(REQUIRED_MESSAGE),
     otherwise: (schema) => schema.notRequired().ensure(),
   }),
   partecipants: Yup.array()
