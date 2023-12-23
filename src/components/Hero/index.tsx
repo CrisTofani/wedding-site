@@ -1,5 +1,7 @@
+import * as React from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import "./index.css";
+import { useEasterEggModal } from "../../hooks/useEasterEggModal";
 
 type HeroProps = {
   title?: string;
@@ -12,8 +14,19 @@ export default function Hero({
   subtitle = "7 Settembre 2024",
   note = "",
 }: HeroProps) {
+  const [clicks, setClicks] = React.useState(0);
+  const { setOpen, EasterEggModal } = useEasterEggModal();
+
+  React.useEffect(() => {
+    if (clicks === 10) {
+      setOpen(true);
+      setClicks(0);
+    }
+  }, [clicks, setOpen]);
+
   return (
     <section className="hero-section" id="#section-1">
+      <EasterEggModal />
       <Grid
         height={"100%"}
         container
@@ -26,6 +39,7 @@ export default function Hero({
             <Typography
               variant={"h2"}
               sx={{ color: "#fff", textAlign: "center" }}
+              onClick={() => setClicks((c) => c + 1)}
             >
               {title}
             </Typography>
