@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 const GOOGLE_CALENDAR_URL =
-  "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20240907T153000Z%2F20240907T230000Z&location=Via%20di%20Torre%20Sant%27Anastasia%2C%2018%2C%2000134%2C%20Roma&text=Matrimonio%20Cristiano%20e%20Marta";
+  "https://www.google.com/calendar/render?action=TEMPLATE&text=Matrimonio+Cristiano+e+Marta&details=Casale+Torre+Sant%27Anastasia%0AVia+di+Torre+Sant%27Anastasia%2C+18%2C+00134+Roma+RM&location=Via+di+Torre+Sant%27Anastasia%2C+18%2C+00134+Roma+RM&dates=20240907T153000Z%2F20240907T230000Z";
 
 const CalendarsDialog = ({ anchorEl, onClose }: Props) => {
   const onGoogleCalendarClick = () => {
